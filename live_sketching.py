@@ -25,10 +25,16 @@ Contains a boolean (ret) indicating if it was successful or not
 (frame) contains the image collected from web cam
 '''
 cap = cv2.VideoCapture(0)
-
+faceCascade = cv2.CascadeClassifier("dataset/haarcascade_frontalface_default.xml")
 while True:
   ret , frame = cap.read()
-  cv2.imshow('Our Live Sketcher' , sketch(frame))
+  gray_img = sketch(frame)
+  faces = faceCascade.detectMultiScale(gray_img,1.1,4)
+    cnt=500
+    keyPressed = cv2.waitKey(1)
+    for x,y,w,h in faces:
+        img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,0),3)
+  cv2.imshow('Our Live Sketcher' , gray_img)
   if cv2.waitKey(1) == 13: # Press Enter  to exit the web cam
     break
 
